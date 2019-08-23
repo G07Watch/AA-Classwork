@@ -1,0 +1,150 @@
+Index testing
+
+
+Kiss look_up
+
+                         QUERY PLAN                             
+-------------------------------------------------------------------
+ Limit  (cost=194.75..194.75 rows=1 width=4)
+   ->  Sort  (cost=194.75..194.78 rows=10 width=4)
+         Sort Key: price DESC
+         ->  Seq Scan on toys  (cost=0.00..194.70 rows=10 width=4)
+               Filter: ((name)::text = 'Kiss'::text)
+(5 rows)
+
+
+Created index toys_name
+
+                               QUERY PLAN                                      
+-------------------------------------------------------------------------------------
+ Limit  (cost=33.12..33.12 rows=1 width=4)
+   ->  Sort  (cost=33.12..33.14 rows=10 width=4)
+         Sort Key: price DESC
+         ->  Bitmap Heap Scan on toys  (cost=4.36..33.07 rows=10 width=4)
+               Recheck Cond: ((name)::text = 'Kiss'::text)
+               ->  Bitmap Index Scan on toys_name  (cost=0.00..4.36 rows=10 width=0)
+                     Index Cond: ((name)::text = 'Kiss'::text)
+(7 rows)
+
+
+gold_cat_toys
+
+     QUERY PLAN                                  
+-----------------------------------------------------------------------------
+ Nested Loop  (cost=206.50..648.33 rows=508 width=9)
+   ->  Hash Join  (cost=206.21..481.45 rows=508 width=4)
+         Hash Cond: (cattoys.cat_id = cats.id)
+         ->  Seq Scan on cattoys  (cost=0.00..235.25 rows=15225 width=8)
+         ->  Hash  (cost=202.04..202.04 rows=334 width=4)
+               ->  Seq Scan on cats  (cost=0.00..202.04 rows=334 width=4)
+                     Filter: ((color)::text = 'Gold'::text)
+   ->  Index Scan using toys_pkey on toys  (cost=0.29..0.33 rows=1 width=13)
+         Index Cond: (id = cattoys.toy_id)
+(9 rows)
+
+CREATE INDEX toys_name, cat_color
+
+                                       QUERY PLAN                                          
+---------------------------------------------------------------------------------------------
+ Nested Loop  (cost=96.51..538.34 rows=508 width=9)
+   ->  Hash Join  (cost=96.22..371.46 rows=508 width=4)
+         Hash Cond: (cattoys.cat_id = cats.id)
+         ->  Seq Scan on cattoys  (cost=0.00..235.25 rows=15225 width=8)
+         ->  Hash  (cost=92.05..92.05 rows=334 width=4)
+               ->  Bitmap Heap Scan on cats  (cost=10.87..92.05 rows=334 width=4)
+                     Recheck Cond: ((color)::text = 'Gold'::text)
+                     ->  Bitmap Index Scan on cat_color  (cost=0.00..10.79 rows=334 width=0)
+                           Index Cond: ((color)::text = 'Gold'::text)
+   ->  Index Scan using toys_pkey on toys  (cost=0.29..0.33 rows=1 width=13)
+         Index Cond: (id = cattoys.toy_id)
+(11 rows)
+
+
+who_owns_thumbs_up
+
+                                QUERY PLAN                                  
+-----------------------------------------------------------------------------
+ Nested Loop  (cost=195.11..475.06 rows=1 width=12)
+   ->  Hash Join  (cost=194.82..470.06 rows=15 width=4)
+         Hash Cond: (cattoys.toy_id = toys.id)
+         ->  Seq Scan on cattoys  (cost=0.00..235.25 rows=15225 width=8)
+         ->  Hash  (cost=194.70..194.70 rows=10 width=4)
+               ->  Seq Scan on toys  (cost=0.00..194.70 rows=10 width=4)
+                     Filter: ((name)::text = 'Thumbsup'::text)
+   ->  Index Scan using cats_pkey on cats  (cost=0.29..0.33 rows=1 width=16)
+         Index Cond: (id = cattoys.cat_id)
+         Filter: ((color)::text = 'Pink'::text)
+(10 rows)
+
+
+toy_id on cattoys
+toys_name on toys(name) 
+
+                       QUERY PLAN                                      
+-------------------------------------------------------------------------------------
+ Nested Loop  (cost=4.93..145.97 rows=1 width=12)
+   ->  Nested Loop  (cost=4.65..140.97 rows=15 width=4)
+         ->  Bitmap Heap Scan on toys  (cost=4.36..33.07 rows=10 width=4)
+               Recheck Cond: ((name)::text = 'Thumbsup'::text)
+               ->  Bitmap Index Scan on toys_name  (cost=0.00..4.36 rows=10 width=0)
+                     Index Cond: ((name)::text = 'Thumbsup'::text)
+         ->  Index Scan using toy_id on cattoys  (cost=0.29..10.77 rows=2 width=8)
+               Index Cond: (toy_id = toys.id)
+   ->  Index Scan using cats_pkey on cats  (cost=0.29..0.33 rows=1 width=16)
+         Index Cond: (id = cattoys.cat_id)
+         Filter: ((color)::text = 'Pink'::text)
+(11 rows)
+
+
+popular_toys
+
+
+                                QUERY PLAN                                        
+-----------------------------------------------------------------------------------------
+ GroupAggregate  (cost=478.31..478.37 rows=3 width=17)
+   Group Key: toys.name
+   Filter: (count(*) >= 2)
+   ->  Sort  (cost=478.31..478.32 rows=3 width=9)
+         Sort Key: toys.name
+         ->  Nested Loop  (cost=202.35..478.29 rows=3 width=9)
+               ->  Hash Join  (cost=202.06..477.30 rows=3 width=4)
+                     Hash Cond: (cattoys.cat_id = cats.id)
+                     ->  Seq Scan on cattoys  (cost=0.00..235.25 rows=15225 width=8)
+                     ->  Hash  (cost=202.04..202.04 rows=2 width=4)
+                           ->  Seq Scan on cats  (cost=0.00..202.04 rows=2 width=4)
+                                 Filter: ((name)::text = 'Jet'::text)
+               ->  Index Scan using toys_pkey on toys  (cost=0.29..0.33 rows=1 width=13)
+                     Index Cond: (id = cattoys.toy_id)
+(14 rows)
+
+CREATE INDEX 
+cats_name
+cats_id
+toys_name
+
+                                           QUERY PLAN                                           
+------------------------------------------------------------------------------------------------
+ GroupAggregate  (cost=35.20..35.26 rows=3 width=17)
+   Group Key: toys.name
+   Filter: (count(*) >= 2)
+   ->  Sort  (cost=35.20..35.20 rows=3 width=9)
+         Sort Key: toys.name
+         ->  Nested Loop  (cost=8.89..35.17 rows=3 width=9)
+               ->  Nested Loop  (cost=8.60..34.19 rows=3 width=4)
+                     ->  Bitmap Heap Scan on cats  (cost=4.30..11.36 rows=2 width=4)
+                           Recheck Cond: ((name)::text = 'Jet'::text)
+                           ->  Bitmap Index Scan on cats_name  (cost=0.00..4.30 rows=2 width=0)
+                                 Index Cond: ((name)::text = 'Jet'::text)
+                     ->  Bitmap Heap Scan on cattoys  (cost=4.30..11.39 rows=2 width=8)
+                           Recheck Cond: (cat_id = cats.id)
+                           ->  Bitmap Index Scan on cats_id  (cost=0.00..4.30 rows=2 width=0)
+                                 Index Cond: (cat_id = cats.id)
+               ->  Index Scan using toys_pkey on toys  (cost=0.29..0.33 rows=1 width=13)
+                     Index Cond: (id = cattoys.toy_id)
+(17 rows)
+
+
+
+
+
+

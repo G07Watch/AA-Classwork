@@ -1,0 +1,181 @@
+ write a method binary search 
+ searches an array for a target
+ returns target index  returns "not found"
+ array given  is sorted 
+
+
+def bsearch(array, target)
+    return nil if array.empty?
+    mid = array.length/2
+    left = array[0...mid]
+    right = array[mid+1..-1]
+
+    case array[mid] <=> target
+
+    when 0
+        return mid
+
+    when -1
+
+            result = bsearch(left,target)
+
+    when 1
+                #[0,1,2],2
+        result = bsearch(right,target)
+        if result 
+            result += mid+1
+        end
+    end
+
+    result
+end
+
+
+
+merge sort
+takes proc, not modify origin
+is a Array class method
+
+
+class Array
+
+def merge_sort(&prc)
+    return self if self.length < 2
+    
+
+
+    mid = self.length / 2
+    left = self[0...mid]
+    right = self[mid..-1]
+
+    left_ele = left.merge_sort(&prc)
+    right_ele = right.merge_sort(&prc)
+
+      left = self[0...mid].merge_sort(&prc)
+
+
+end
+
+
+
+def merge(left_ele, right_ele)
+    
+
+end
+
+end
+
+
+# monkey patching  Array
+# my_each : call a block on each element of the array
+
+class Array
+
+    def my_each(&prc)
+        new_arr = []
+        idx = 0
+
+        while idx < length
+
+            new_arr << prc.call(self[idx])
+
+            idx+=1
+        end
+
+        new_arr
+    end
+
+    def my_each!(&prc)
+        self.my_each(prc)
+    end
+
+end
+
+
+#  dupes class Array method
+
+#returns a hash
+#where the key is a repeated element the values are an array where the elements
+# are indices from lowest to highest element
+
+
+class Array
+
+    def dupes
+        duplicates = {}
+
+        freq = Hash.new(0)
+
+        self.each do |ele|
+            freq[ele]+=1
+        end
+
+        freq.keys.each do |key|
+            if freq[key] > 1
+                indices = []
+
+                self.each_with_index do |ele, index|
+                    if ele == key
+                    indices << index
+                end
+                duplicates[key] = indices
+            end
+        end
+
+        duplicates
+    end
+
+end
+
+
+my_flatten
+monkey patching Array class
+flatten array to the specify level
+if none given, flatten to 1D array
+
+
+
+class Array
+
+    def my_flatten(level = 0)
+        flattened = []
+        if level = 0
+            self.each do |ele|
+                if ele.is_a?(Array)
+                    flattened += ele.my_flatten
+                eles
+                    flattened << ele
+                end
+            end
+        else
+        
+            self.each do |ele|
+                if ele.is_a?(Array)
+                    flattened += ele.my_flatten
+                eles
+                    flattened << ele
+                end
+            end
+
+
+
+            flattened
+
+    end
+
+
+end
+
+class Array
+  def my_flatten(level = nil)
+    duped = self.dup
+    return duped if level == 0
+    next_level = level ? level - 1 : nil 
+
+    each_with_index do |el, i|      1
+      duped[i..i] = el.my_flatten(next_level) if el.is_a?(Array)
+    end     
+    
+    duped
+  end
+end
