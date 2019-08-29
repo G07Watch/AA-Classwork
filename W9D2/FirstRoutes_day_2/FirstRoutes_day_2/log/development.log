@@ -2933,3 +2933,220 @@ Migrating to CreateComments (20190827224328)
   [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
   [1m[36mComment Load (0.3ms)[0m  [1m[34mSELECT "comments".* FROM "comments" ORDER BY "comments"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
   [1m[36mArtwork Load (0.2ms)[0m  [1m[34mSELECT "artworks".* FROM "artworks" WHERE "artworks"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[35m (14.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (13.3ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (1.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (362.5ms)[0m  [1m[35mDROP DATABASE IF EXISTS "FirstRoutes_development"[0m
+  [1m[35m (332.0ms)[0m  [1m[35mDROP DATABASE IF EXISTS "FirstRoutes_test"[0m
+  [1m[35m (1178.2ms)[0m  [1m[35mCREATE DATABASE "FirstRoutes_development" ENCODING = 'unicode'[0m
+  [1m[35m (804.0ms)[0m  [1m[35mCREATE DATABASE "FirstRoutes_test" ENCODING = 'unicode'[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[35mCREATE EXTENSION IF NOT EXISTS "plpgsql"[0m
+  [1m[35m (14.5ms)[0m  [1m[35mDROP TABLE IF EXISTS "artwork_shares" CASCADE[0m
+  [1m[35m (73.2ms)[0m  [1m[35mCREATE TABLE "artwork_shares" ("id" bigserial primary key, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, "artwork_id" integer NOT NULL, "viewer_id" integer NOT NULL)[0m
+  [1m[35m (64.1ms)[0m  [1m[35mCREATE UNIQUE INDEX  "index_artwork_shares_on_artwork_id_and_viewer_id" ON "artwork_shares"  ("artwork_id", "viewer_id")[0m
+  [1m[35m (0.6ms)[0m  [1m[35mDROP TABLE IF EXISTS "artworks" CASCADE[0m
+  [1m[35m (94.9ms)[0m  [1m[35mCREATE TABLE "artworks" ("id" bigserial primary key, "title" character varying NOT NULL, "image_url" character varying NOT NULL, "artist_id" integer NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (104.7ms)[0m  [1m[35mCREATE UNIQUE INDEX  "index_artworks_on_title_and_artist_id" ON "artworks"  ("title", "artist_id")[0m
+  [1m[35m (0.8ms)[0m  [1m[35mDROP TABLE IF EXISTS "comments" CASCADE[0m
+  [1m[35m (114.3ms)[0m  [1m[35mCREATE TABLE "comments" ("id" bigserial primary key, "user_id" integer NOT NULL, "artwork_id" integer NOT NULL, "body" character varying NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (57.9ms)[0m  [1m[35mCREATE  INDEX  "index_comments_on_artwork_id" ON "comments"  ("artwork_id")[0m
+  [1m[35m (58.7ms)[0m  [1m[35mCREATE  INDEX  "index_comments_on_user_id" ON "comments"  ("user_id")[0m
+  [1m[35m (0.7ms)[0m  [1m[35mDROP TABLE IF EXISTS "users" CASCADE[0m
+  [1m[35m (116.1ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "created_at" timestamp(6), "updated_at" timestamp(6), "username" character varying NOT NULL)[0m
+  [1m[35m (93.7ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (1.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (12.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20190827224328)[0m
+  [1m[35m (7.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20190826224818),
+(20190827172202),
+(20190827173231),
+(20190827174942),
+(20190827175229),
+(20190827194719);
+
+[0m
+  [1m[35m (94.7ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.5ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (1.8ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", "2019-08-28 15:51:38.953848"], ["updated_at", "2019-08-28 15:51:38.953848"]]
+  [1m[35m (21.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.0ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.9ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[35m (0.7ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.9ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "schema_sha1"], ["value", "4f0226e052ba088d4f6c143bfbe07fa971a1d753"], ["created_at", "2019-08-28 15:51:39.005220"], ["updated_at", "2019-08-28 15:51:39.005220"]]
+  [1m[35m (14.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[35mCREATE EXTENSION IF NOT EXISTS "plpgsql"[0m
+  [1m[35m (1.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "artwork_shares" CASCADE[0m
+  [1m[35m (77.6ms)[0m  [1m[35mCREATE TABLE "artwork_shares" ("id" bigserial primary key, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, "artwork_id" integer NOT NULL, "viewer_id" integer NOT NULL)[0m
+  [1m[35m (57.7ms)[0m  [1m[35mCREATE UNIQUE INDEX  "index_artwork_shares_on_artwork_id_and_viewer_id" ON "artwork_shares"  ("artwork_id", "viewer_id")[0m
+  [1m[35m (0.6ms)[0m  [1m[35mDROP TABLE IF EXISTS "artworks" CASCADE[0m
+  [1m[35m (116.5ms)[0m  [1m[35mCREATE TABLE "artworks" ("id" bigserial primary key, "title" character varying NOT NULL, "image_url" character varying NOT NULL, "artist_id" integer NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (59.5ms)[0m  [1m[35mCREATE UNIQUE INDEX  "index_artworks_on_title_and_artist_id" ON "artworks"  ("title", "artist_id")[0m
+  [1m[35m (0.4ms)[0m  [1m[35mDROP TABLE IF EXISTS "comments" CASCADE[0m
+  [1m[35m (104.3ms)[0m  [1m[35mCREATE TABLE "comments" ("id" bigserial primary key, "user_id" integer NOT NULL, "artwork_id" integer NOT NULL, "body" character varying NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (48.1ms)[0m  [1m[35mCREATE  INDEX  "index_comments_on_artwork_id" ON "comments"  ("artwork_id")[0m
+  [1m[35m (59.6ms)[0m  [1m[35mCREATE  INDEX  "index_comments_on_user_id" ON "comments"  ("user_id")[0m
+  [1m[35m (0.6ms)[0m  [1m[35mDROP TABLE IF EXISTS "users" CASCADE[0m
+  [1m[35m (102.4ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "created_at" timestamp(6), "updated_at" timestamp(6), "username" character varying NOT NULL)[0m
+  [1m[35m (93.1ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (1.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (13.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20190827224328)[0m
+  [1m[35m (8.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20190826224818),
+(20190827172202),
+(20190827173231),
+(20190827174942),
+(20190827175229),
+(20190827194719);
+
+[0m
+  [1m[35m (128.8ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.7ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (1.1ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", "2019-08-28 15:51:40.039636"], ["updated_at", "2019-08-28 15:51:40.039636"]]
+  [1m[35m (3.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.7ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Update (0.9ms)[0m  [1m[33mUPDATE "ar_internal_metadata" SET "value" = $1, "updated_at" = $2 WHERE "ar_internal_metadata"."key" = $3[0m  [["value", "test"], ["updated_at", "2019-08-28 15:51:40.060463"], ["key", "environment"]]
+  [1m[35m (4.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.7ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.8ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "schema_sha1"], ["value", "4f0226e052ba088d4f6c143bfbe07fa971a1d753"], ["created_at", "2019-08-28 15:51:40.081675"], ["updated_at", "2019-08-28 15:51:40.081675"]]
+  [1m[35m (4.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (1.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (2.1ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."username" = $1 LIMIT $2[0m  [["username", "DJimd"], ["LIMIT", 1]]
+  [1m[36mUser Create (1.9ms)[0m  [1m[32mINSERT INTO "users" ("created_at", "updated_at", "username") VALUES ($1, $2, $3) RETURNING "id"[0m  [["created_at", "2019-08-28 15:51:40.249302"], ["updated_at", "2019-08-28 15:51:40.249302"], ["username", "DJimd"]]
+  [1m[35m (17.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (1.1ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."username" = $1 LIMIT $2[0m  [["username", "Sandra"], ["LIMIT", 1]]
+  [1m[36mUser Create (1.5ms)[0m  [1m[32mINSERT INTO "users" ("created_at", "updated_at", "username") VALUES ($1, $2, $3) RETURNING "id"[0m  [["created_at", "2019-08-28 15:51:40.287757"], ["updated_at", "2019-08-28 15:51:40.287757"], ["username", "Sandra"]]
+  [1m[35m (12.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (1.0ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."username" = $1 LIMIT $2[0m  [["username", "Blake"], ["LIMIT", 1]]
+  [1m[36mUser Create (1.4ms)[0m  [1m[32mINSERT INTO "users" ("created_at", "updated_at", "username") VALUES ($1, $2, $3) RETURNING "id"[0m  [["created_at", "2019-08-28 15:51:40.321215"], ["updated_at", "2019-08-28 15:51:40.321215"], ["username", "Blake"]]
+  [1m[35m (12.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (1.0ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."username" = $1 LIMIT $2[0m  [["username", "Friday"], ["LIMIT", 1]]
+  [1m[36mUser Create (1.1ms)[0m  [1m[32mINSERT INTO "users" ("created_at", "updated_at", "username") VALUES ($1, $2, $3) RETURNING "id"[0m  [["created_at", "2019-08-28 15:51:40.352814"], ["updated_at", "2019-08-28 15:51:40.352814"], ["username", "Friday"]]
+  [1m[35m (14.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (1.0ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."username" = $1 LIMIT $2[0m  [["username", "Paul"], ["LIMIT", 1]]
+  [1m[36mUser Create (1.2ms)[0m  [1m[32mINSERT INTO "users" ("created_at", "updated_at", "username") VALUES ($1, $2, $3) RETURNING "id"[0m  [["created_at", "2019-08-28 15:51:40.396182"], ["updated_at", "2019-08-28 15:51:40.396182"], ["username", "Paul"]]
+  [1m[35m (4.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mArtwork Exists? (1.2ms)[0m  [1m[34mSELECT 1 AS one FROM "artworks" WHERE "artworks"."title" = $1 AND "artworks"."artist_id" = $2 LIMIT $3[0m  [["title", "Flowers and a cat"], ["artist_id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mArtwork Create (1.2ms)[0m  [1m[32mINSERT INTO "artworks" ("title", "image_url", "artist_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["title", "Flowers and a cat"], ["image_url", "google.com/hwipufhew"], ["artist_id", 1], ["created_at", "2019-08-28 15:51:40.468639"], ["updated_at", "2019-08-28 15:51:40.468639"]]
+  [1m[35m (10.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mArtwork Exists? (1.3ms)[0m  [1m[34mSELECT 1 AS one FROM "artworks" WHERE "artworks"."title" = $1 AND "artworks"."artist_id" = $2 LIMIT $3[0m  [["title", "Death"], ["artist_id", 2], ["LIMIT", 1]]
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mArtwork Create (0.9ms)[0m  [1m[32mINSERT INTO "artworks" ("title", "image_url", "artist_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["title", "Death"], ["image_url", "google.com/google.jpeg"], ["artist_id", 2], ["created_at", "2019-08-28 15:51:40.500605"], ["updated_at", "2019-08-28 15:51:40.500605"]]
+  [1m[35m (11.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mArtwork Exists? (0.9ms)[0m  [1m[34mSELECT 1 AS one FROM "artworks" WHERE "artworks"."title" = $1 AND "artworks"."artist_id" = $2 LIMIT $3[0m  [["title", "Still life with fruit and person"], ["artist_id", 5], ["LIMIT", 1]]
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mArtwork Create (0.7ms)[0m  [1m[32mINSERT INTO "artworks" ("title", "image_url", "artist_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["title", "Still life with fruit and person"], ["image_url", "ask.com/artist_art_art.png"], ["artist_id", 5], ["created_at", "2019-08-28 15:51:40.534045"], ["updated_at", "2019-08-28 15:51:40.534045"]]
+  [1m[35m (11.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mArtwork Exists? (1.0ms)[0m  [1m[34mSELECT 1 AS one FROM "artworks" WHERE "artworks"."title" = $1 AND "artworks"."artist_id" = $2 LIMIT $3[0m  [["title", "Untitled 4"], ["artist_id", 3], ["LIMIT", 1]]
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mArtwork Create (0.9ms)[0m  [1m[32mINSERT INTO "artworks" ("title", "image_url", "artist_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["title", "Untitled 4"], ["image_url", "google.com/bird_search.png"], ["artist_id", 3], ["created_at", "2019-08-28 15:51:40.568740"], ["updated_at", "2019-08-28 15:51:40.568740"]]
+  [1m[35m (32.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mArtwork Exists? (1.1ms)[0m  [1m[34mSELECT 1 AS one FROM "artworks" WHERE "artworks"."title" = $1 AND "artworks"."artist_id" = $2 LIMIT $3[0m  [["title", "Masterpiece"], ["artist_id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mArtwork Create (1.1ms)[0m  [1m[32mINSERT INTO "artworks" ("title", "image_url", "artist_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["title", "Masterpiece"], ["image_url", "google.com/hello.png"], ["artist_id", 4], ["created_at", "2019-08-28 15:51:40.624270"], ["updated_at", "2019-08-28 15:51:40.624270"]]
+  [1m[35m (9.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mArtworkShare Exists? (1.2ms)[0m  [1m[34mSELECT 1 AS one FROM "artwork_shares" WHERE "artwork_shares"."viewer_id" = $1 LIMIT $2[0m  [["viewer_id", 5], ["LIMIT", 1]]
+  [1m[36mArtworkShare Exists? (1.0ms)[0m  [1m[34mSELECT 1 AS one FROM "artwork_shares" WHERE "artwork_shares"."artwork_id" = $1 LIMIT $2[0m  [["artwork_id", 1], ["LIMIT", 1]]
+  [1m[36mArtwork Load (0.7ms)[0m  [1m[34mSELECT "artworks".* FROM "artworks" WHERE "artworks"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mArtworkShare Create (1.4ms)[0m  [1m[32mINSERT INTO "artwork_shares" ("created_at", "updated_at", "artwork_id", "viewer_id") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["created_at", "2019-08-28 15:51:40.699431"], ["updated_at", "2019-08-28 15:51:40.699431"], ["artwork_id", 1], ["viewer_id", 5]]
+  [1m[35m (12.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mArtworkShare Exists? (0.9ms)[0m  [1m[34mSELECT 1 AS one FROM "artwork_shares" WHERE "artwork_shares"."viewer_id" = $1 LIMIT $2[0m  [["viewer_id", 4], ["LIMIT", 1]]
+  [1m[36mArtworkShare Exists? (0.8ms)[0m  [1m[34mSELECT 1 AS one FROM "artwork_shares" WHERE "artwork_shares"."artwork_id" = $1 LIMIT $2[0m  [["artwork_id", 2], ["LIMIT", 1]]
+  [1m[36mArtwork Load (0.6ms)[0m  [1m[34mSELECT "artworks".* FROM "artworks" WHERE "artworks"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mArtworkShare Create (0.8ms)[0m  [1m[32mINSERT INTO "artwork_shares" ("created_at", "updated_at", "artwork_id", "viewer_id") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["created_at", "2019-08-28 15:51:40.741174"], ["updated_at", "2019-08-28 15:51:40.741174"], ["artwork_id", 2], ["viewer_id", 4]]
+  [1m[35m (3.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mArtworkShare Exists? (0.7ms)[0m  [1m[34mSELECT 1 AS one FROM "artwork_shares" WHERE "artwork_shares"."viewer_id" = $1 LIMIT $2[0m  [["viewer_id", 3], ["LIMIT", 1]]
+  [1m[36mArtworkShare Exists? (0.7ms)[0m  [1m[34mSELECT 1 AS one FROM "artwork_shares" WHERE "artwork_shares"."artwork_id" = $1 LIMIT $2[0m  [["artwork_id", 3], ["LIMIT", 1]]
+  [1m[36mArtwork Load (0.7ms)[0m  [1m[34mSELECT "artworks".* FROM "artworks" WHERE "artworks"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mArtworkShare Create (0.7ms)[0m  [1m[32mINSERT INTO "artwork_shares" ("created_at", "updated_at", "artwork_id", "viewer_id") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["created_at", "2019-08-28 15:51:40.773065"], ["updated_at", "2019-08-28 15:51:40.773065"], ["artwork_id", 3], ["viewer_id", 3]]
+  [1m[35m (5.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mArtworkShare Exists? (0.9ms)[0m  [1m[34mSELECT 1 AS one FROM "artwork_shares" WHERE "artwork_shares"."viewer_id" = $1 LIMIT $2[0m  [["viewer_id", 2], ["LIMIT", 1]]
+  [1m[36mArtworkShare Exists? (0.7ms)[0m  [1m[34mSELECT 1 AS one FROM "artwork_shares" WHERE "artwork_shares"."artwork_id" = $1 LIMIT $2[0m  [["artwork_id", 4], ["LIMIT", 1]]
+  [1m[36mArtwork Load (0.5ms)[0m  [1m[34mSELECT "artworks".* FROM "artworks" WHERE "artworks"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mArtworkShare Create (1.1ms)[0m  [1m[32mINSERT INTO "artwork_shares" ("created_at", "updated_at", "artwork_id", "viewer_id") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["created_at", "2019-08-28 15:51:40.806073"], ["updated_at", "2019-08-28 15:51:40.806073"], ["artwork_id", 4], ["viewer_id", 2]]
+  [1m[35m (9.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mArtworkShare Exists? (1.1ms)[0m  [1m[34mSELECT 1 AS one FROM "artwork_shares" WHERE "artwork_shares"."viewer_id" = $1 LIMIT $2[0m  [["viewer_id", 1], ["LIMIT", 1]]
+  [1m[36mArtworkShare Exists? (1.0ms)[0m  [1m[34mSELECT 1 AS one FROM "artwork_shares" WHERE "artwork_shares"."artwork_id" = $1 LIMIT $2[0m  [["artwork_id", 5], ["LIMIT", 1]]
+  [1m[36mArtwork Load (0.8ms)[0m  [1m[34mSELECT "artworks".* FROM "artworks" WHERE "artworks"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mArtworkShare Create (0.8ms)[0m  [1m[32mINSERT INTO "artwork_shares" ("created_at", "updated_at", "artwork_id", "viewer_id") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["created_at", "2019-08-28 15:51:40.854555"], ["updated_at", "2019-08-28 15:51:40.854555"], ["artwork_id", 5], ["viewer_id", 1]]
+  [1m[35m (12.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mArtwork Load (0.6ms)[0m  [1m[34mSELECT "artworks".* FROM "artworks" WHERE "artworks"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mComment Create (1.6ms)[0m  [1m[32mINSERT INTO "comments" ("user_id", "artwork_id", "body", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["user_id", 1], ["artwork_id", 5], ["body", "this is so ugly lol"], ["created_at", "2019-08-28 15:51:40.924941"], ["updated_at", "2019-08-28 15:51:40.924941"]]
+  [1m[35m (18.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mArtwork Load (0.7ms)[0m  [1m[34mSELECT "artworks".* FROM "artworks" WHERE "artworks"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mComment Create (1.6ms)[0m  [1m[32mINSERT INTO "comments" ("user_id", "artwork_id", "body", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["user_id", 3], ["artwork_id", 5], ["body", "Beautiful. Gorgeous.  I am Paul."], ["created_at", "2019-08-28 15:51:40.967613"], ["updated_at", "2019-08-28 15:51:40.967613"]]
+  [1m[35m (8.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mArtwork Load (0.6ms)[0m  [1m[34mSELECT "artworks".* FROM "artworks" WHERE "artworks"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mComment Create (1.1ms)[0m  [1m[32mINSERT INTO "comments" ("user_id", "artwork_id", "body", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["user_id", 3], ["artwork_id", 3], ["body", "WoW!!!!!!!!!!!!!!!!!!!!!!!!"], ["created_at", "2019-08-28 15:51:40.998290"], ["updated_at", "2019-08-28 15:51:40.998290"]]
+  [1m[35m (12.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (1.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mArtwork Load (0.8ms)[0m  [1m[34mSELECT "artworks".* FROM "artworks" WHERE "artworks"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mComment Create (1.0ms)[0m  [1m[32mINSERT INTO "comments" ("user_id", "artwork_id", "body", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["user_id", 5], ["artwork_id", 2], ["body", "omg :)"], ["created_at", "2019-08-28 15:51:41.034920"], ["updated_at", "2019-08-28 15:51:41.034920"]]
+  [1m[35m (8.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mArtwork Load (0.7ms)[0m  [1m[34mSELECT "artworks".* FROM "artworks" WHERE "artworks"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mComment Create (1.3ms)[0m  [1m[32mINSERT INTO "comments" ("user_id", "artwork_id", "body", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["user_id", 2], ["artwork_id", 1], ["body", "The textures in this piece are astounding.  One can really get a feel for the rage the artist felt"], ["created_at", "2019-08-28 15:51:41.067248"], ["updated_at", "2019-08-28 15:51:41.067248"]]
+  [1m[35m (8.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mArtwork Load (1.1ms)[0m  [1m[34mSELECT "artworks".* FROM "artworks" WHERE "artworks"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mComment Create (1.4ms)[0m  [1m[32mINSERT INTO "comments" ("user_id", "artwork_id", "body", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["user_id", 4], ["artwork_id", 2], ["body", "I miss my wife"], ["created_at", "2019-08-28 15:51:41.100820"], ["updated_at", "2019-08-28 15:51:41.100820"]]
+  [1m[35m (8.8ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/" for ::1 at 2019-08-28 11:59:52 -0400
+  [1m[35m (1.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by Rails::WelcomeController#index as */*
+  Rendering /home/john/.rbenv/versions/2.5.1/lib/ruby/gems/2.5.0/gems/railties-6.0.0/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered /home/john/.rbenv/versions/2.5.1/lib/ruby/gems/2.5.0/gems/railties-6.0.0/lib/rails/templates/rails/welcome/index.html.erb (Duration: 30.5ms | Allocations: 482)
+Completed 200 OK in 127ms (Views: 62.0ms | ActiveRecord: 0.0ms | Allocations: 2739)
+
+
+Started GET "/users/" for ::1 at 2019-08-28 12:01:11 -0400
+Processing by UsersController#index as */*
+  [1m[36mUser Load (1.5ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/users_controller.rb:4:in `index'
+Completed 200 OK in 47ms (Views: 16.5ms | ActiveRecord: 11.6ms | Allocations: 8119)
+
+
+  [1m[35m (1.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (1.0ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (328.1ms)[0m  [1m[35mDROP DATABASE IF EXISTS "FirstRoutes_development"[0m
+  [1m[35m (340.7ms)[0m  [1m[35mDROP DATABASE IF EXISTS "FirstRoutes_test"[0m
