@@ -8,13 +8,15 @@
    
   </head>
 
-  <% if !@current_user.nil? %>
+  <% if logged_in?%>
     <p>
-    current user :<%= @current_user.name%>
+    current user :<%= current_user.email%>
     </p>
-   
-
-    <input type="button" value="Log out">
+    <form action="<%=session_url%>" method="POST">
+    <input type="hidden" name="_method" value="DELETE">
+    <%=auth_token%>
+    <input type="submit" value="Sign out">
+    </form>
 
   <%else %>
    

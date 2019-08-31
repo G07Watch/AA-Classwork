@@ -1,4 +1,5 @@
 class BandsController < ApplicationController
+    before_action :require_user, only: [:new, :create]
 
     def index
         @bands = Band.all 
@@ -6,14 +7,8 @@ class BandsController < ApplicationController
     end
 
     def new
-       if !logged_in?
-         flash[:errors]= "Please log in or sign up to submit a band"
-         redirect_to new_session_url 
-         return
-       else
         @band = Band.find_by(name: params[:name])
         render :new
-       end
     end
 
     def create
