@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MusicApp</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+   
+  </head>
+
+  <% if !@current_user.nil? %>
+    <p>
+    current user :<%= @current_user.name%>
+    </p>
+   
+
+    <input type="button" value="Log out">
+
+  <%else %>
+   
+    <a href="<%=new_session_url%>">Log in</a>
+    <a href="<%=new_user_url%>">Sign up</a>
+
+  <%end%>
+
+  <br>
+
+  <%=flash[:errors]%>
+  <%=flash[:success]%>
+
+  <br>
+
+  <body>
+    <%= yield %>
+  </body>
+</html>
