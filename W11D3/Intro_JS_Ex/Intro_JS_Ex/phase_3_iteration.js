@@ -32,16 +32,22 @@ Array.prototype.bubbleSort = function ()
 
 [43,34,7,9,2,34,65,8,22].bubbleSort();
 
-let a = String.prototype.substrings = function() 
-{   
-    console.log(this);
-	const strings = [];
+String.prototype.substrings = function() 
+{
+    const strings = [];
+    let temp = "";
 
 	for (let i = 0; i < this.length; i++) 
 	{
 		for (let j = i + 1; j <= this.length; j++)  
 		{
-			strings.push(this.slice(i, j));
+            // strings.push(this.slice(i, j));
+            temp = this.slice(i, j);
+            if (strings.includes(temp) == false)
+            {
+                strings.push(temp);
+            }
+            
 		}
 	}
 
@@ -49,6 +55,5 @@ let a = String.prototype.substrings = function()
 	return strings;
 };
 
-"Hello".substrings();
+"Heello".substrings();
 
-a();
