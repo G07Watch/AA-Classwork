@@ -140,3 +140,41 @@ console.log(z(60));
 // sum.apply([1, 2, 3])
 // function.apply(context, [args]);
 // function.call(context, arg1, arg2, etc.);
+
+
+Function.prototype.curry = function (ctx, numArgs) {
+    let args = [];
+    let that = this;
+
+    let _curriedFunc = function (arg) {
+        args.push(arg);
+
+        if (args.length === numArgs) {
+
+            return that.apply(ctx, args);
+        } else {
+            return _curriedFunc;
+        };
+    };
+
+    return _curriedFunc;
+}
+
+
+Function.prototype.curry = function (numArgs) {
+    let args = [];
+    let that = this;
+
+    let _curriedFunc = function (arg) {
+        args.push(arg);
+
+        if (args.length === numArgs) {
+
+            return that(...args);
+        } else {
+            return _curriedFunc;
+        };
+    };
+
+    return _curriedFunc;
+}
