@@ -1,0 +1,41 @@
+explain select * from cats where cats.color = 'Silver';
+
+explain analyze select * from cats where cats.color = 'Silver';
+
+
+explain select cats.breed from cats where cats.name = 'Noel';
+
+explain analyze select cats.breed from cats where cats.name = 'Noel';
+
+
+
+explain select toys.* from toys join cattoys on cattoys.toy_id = toys.id join cats on cattoys.cat_id = cats.id where cats.name = 'Freyja';
+
+explain analyze select toys.* from toys join cattoys on cattoys.toy_id = toys.id join cats on cattoys.cat_id = cats.id where cats.name = 'Freyja';
+
+
+explain select toys.name, cats.name from toys join cattoys on cattoys.toy_id = toys.id join cats on cattoys.cat_id = cats.id where cats.color = 'Red' OR toys.color = 'Red';
+
+
+explain analyze select toys.name, cats.name from toys join cattoys on cattoys.toy_id = toys.id join cats on cattoys.cat_id = cats.id where cats.color = 'Red' OR toys.color = 'Red';
+
+
+
+explain select toys.name, cats.breed from toys join cattoys on cattoys.toy_id = toys.id join cats on cattoys.cat_id = cats.id where cats.breed = 'British Shorthair';
+
+explain analyze select toys.name, cats.breed from toys join cattoys on cattoys.toy_id = toys.id join cats on cattoys.cat_id = cats.id where cats.breed = 'British Shorthair';
+
+
+explain select toys.name, toys.price from toys where toys.price < 10;
+
+explain analyze select toys.name, toys.price from toys where toys.price < 10;
+
+
+
+
+
+
+
+
+
+

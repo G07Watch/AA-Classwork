@@ -1,0 +1,24 @@
+<form action= "<% cats_url %>%" method="POST">
+    <label for="name">Name</label>
+    <input id="name" type="text" name="cat[name]" value="<% @cat.name %>">
+    <br>
+
+    <label for="sex">Sex</label>
+    <input id="M" type="radio" name="cat[sex]" value="M" <%= "checked" if @cat.sex == "M" %>>
+    <label for="M">M</label>
+
+    <input id="F" type="radio" name="cat[sex]" value="F" <%= "checked" if @cat.sex == "F" %>>
+    <label for="F">F</label>
+    <br>
+
+    <label for="color">
+    <select id="color" name="cat[color]">
+        <option disabled selected>SELECT A COLOR</option>
+        <% Cat::COLORS.each do |color| %>
+            <option value="<%= color %>"><%= color%></option>
+        <% end %>
+    </select>
+    <br>
+    
+    <input type="submit" value="Create cat!">
+</form>

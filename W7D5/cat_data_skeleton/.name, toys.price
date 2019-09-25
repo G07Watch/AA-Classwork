@@ -1,0 +1,11 @@
+                               QUERY PLAN                               
+------------------------------------------------------------------------
+ Hash Join  (cost=320.27..528.60 rows=1090 width=13)
+   Hash Cond: (shiny_toys.price = toys.price)
+   ->  Seq Scan on toys shiny_toys  (cost=0.00..194.70 rows=10 width=4)
+         Filter: ((name)::text = 'Shiny Mouse'::text)
+   ->  Hash  (cost=194.70..194.70 rows=10046 width=13)
+         ->  Seq Scan on toys  (cost=0.00..194.70 rows=10046 width=13)
+               Filter: ((name)::text <> 'Shiny Mouse'::text)
+(7 rows)
+

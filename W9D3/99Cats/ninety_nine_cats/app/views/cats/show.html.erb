@@ -1,0 +1,21 @@
+<table>
+    <thead>
+        <tr>
+            <th colspan="2"><%= @cat.name %></th>
+        </tr>
+    </thead>
+    <tbody>
+    <% @cat.attributes.each do |key, val| %>
+        <%unless (key == "created_at" || key == "updated_at")%>
+            <tr>
+                <td><%=key%></td>
+                <td><%=val%></td>
+            </tr>
+        <% end %>
+    <% end %>
+        <tr>
+            <td>age</td>
+            <td><%= @cat.age %></td>
+        </tr> 
+    </tbody>
+</table>

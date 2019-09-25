@@ -1,0 +1,24 @@
+body {
+  line-height: 1.5;
+  font-family: Arial, sans-seris
+
+}
+
+h1 {
+    font-size: 38px
+}
+
+h2{
+    font-size: 32px
+}
+    
+.ingredients-list, ul {
+    list-style: square inside 
+}
+ol {
+
+    list-style: circle
+
+}
+
+
