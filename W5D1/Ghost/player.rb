@@ -1,3 +1,0 @@
-#Player class
-
-class Player
