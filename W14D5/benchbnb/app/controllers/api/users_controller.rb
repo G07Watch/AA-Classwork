@@ -14,7 +14,7 @@ class Api::UsersController < ApplicationController
     
     if @user.save
       log_in(@user)
-      redirect_to api_user_url(@user)
+      render :show
     else
       flash.now[:errors] = @user.errors.full_messages
       render :new # fix later

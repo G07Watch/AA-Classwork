@@ -3,7 +3,6 @@ import * as BenchUtil from '../util/bench_api_util';
 export const RECEIVE_BENCHES = 'RECEIVE_BENCHES'
 
 export const fetchBenches = () => (dispatch) => {
-  // debugger
   return (
     BenchUtil.fetchBenches().then(
       benches => dispatch(receiveBenches(benches))

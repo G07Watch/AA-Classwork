@@ -24,7 +24,6 @@ export const logout = () => dispatch => (
 );
 
 export const signup = user => dispatch =>{
-  debugger
   return (
     SessionAPIUtils.signup(user)
     .then(

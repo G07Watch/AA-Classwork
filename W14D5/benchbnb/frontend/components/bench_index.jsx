@@ -1,22 +1,32 @@
 import React from 'react'
 import BenchIndexItem from './bench_index_item';
 
+
 class BenchIndex extends React.Component {
   constructor(props) {
     super(props);
+    // this.state = {
+    //   bench_items: ""
+    // }
 
   }
 
+
+
   componentDidMount() {
-    // debugger
     this.props.fetchBenches();
+      // .then( ()=> {
+      //   this.setState({
+      //     bench_items: this.props.benches
+      //   });
+      // });
   }
 
   render() {
     let benches;
 
     if (this.props.benches) {
-      benches = this.props.benches.values.map(
+      benches = this.props.benches.map(
         bench => {
           return (
             <BenchIndexItem
@@ -30,7 +40,10 @@ class BenchIndex extends React.Component {
       );
     }
 
-    else benches = <p>Loading Benches...</p>
+    else {
+      console.log("PROPS BITCHES", this.props);
+      benches = <p>Loading Benches...</p>
+    }
 
     return (
       <div>
