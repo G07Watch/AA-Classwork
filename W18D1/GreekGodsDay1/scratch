@@ -1,0 +1,37 @@
+mutation {
+  newGod(name:"GodTest", type:"GodType", description:"GodDescription"){
+    name,
+    type,
+    description
+  }
+}
+
+mutation {
+  updateGod(id:"5dc0b30bc4202c35683a2fcc", name:"GodTestChange", type:"GodTypeChangeType", description:"GodDescriptionChanged"){
+    name,
+    type,
+    description
+  }
+}
+
+mutation {
+  deleteGod(id:"5dc0b30bc4202c35683a2fcc"){
+    name
+  }
+}
+
+5c98ea9bd5a3ca0de10a151a zeus
+5dc0b55bf0924a3719c64804 godtest
+
+mutation {
+  addGodRelative(godId: "5dc0b55bf0924a3719c64804", relativeId: "5c98ea9bd5a3ca0de10a151a", relationship: "parent"){
+    name,
+    id,
+    parents{
+      name
+    },
+    children{
+      name
+    }
+  }
+}

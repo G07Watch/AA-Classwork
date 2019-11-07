@@ -1,0 +1,18 @@
+query NameForTwoWizards($firstid: Int, $secondId: Int) {
+  firstWizard: wizard(id: $firstid) {
+    name
+  },
+  secondWizard: wizard(id: $secondId) {
+    name
+  }
+}
+
+{
+  "firstid" : 3,
+  "secondId": 4
+}
+
+
+{
+  
+}
